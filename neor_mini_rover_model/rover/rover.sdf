@@ -1,0 +1,574 @@
+<?xml version='1.0'?>
+<sdf version='1.4'>
+  <model name='rover'>
+    <static>false</static>   <!-- weather the model is static in gazebo-->
+   <link name='base_link'>
+      <inertial>
+        <pose>0.03065 -1.8e-05 0.055872 0 -0 0</pose>
+        <mass>1.72618</mass>  <!-- 1.72618-->
+        <inertia>
+          <ixx>0.0107311</ixx>
+          <ixy>-3.24165e-08</ixy>
+          <ixz>0.00169189</ixz>
+          <iyy>0.0198872</iyy>
+          <iyz>2.40253e-07</iyz>
+          <izz>0.0269842</izz>
+        </inertia>
+      </inertial>
+      <collision name='base_link_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://rover/meshes/base_link.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='base_link_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://rover/meshes/base_link.STL</uri>
+          </mesh>
+        </geometry>
+         <material> 
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.1 0.1 0.2 1</diffuse>
+          <specular>0 0 0 0</specular>
+          <emissive>0.109 0.109 0.109 1</emissive>
+        </material>  
+      </visual>
+   </link>
+    <link name='front_steer_left_link'>
+      <pose relative_to='front_left_steering_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 -0.000295 -0 0 -0 0</pose>
+        <mass>0.296316</mass> <!--0.296316  -->
+        <inertia>
+          <ixx>0.000374692</ixx>
+          <ixy>-9.17172e-08</ixy>
+          <ixz>-2.43188e-12</ixz>
+          <iyy>0.00066103</iyy>
+          <iyz>1.97369e-13</iyz>
+          <izz>0.000374692</izz>
+        </inertia>
+      </inertial>
+      <collision name='front_steer_left_link_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.001</length>
+            <radius>0.005</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='front_steer_left_link_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.001</length>
+            <radius>0.005</radius>
+          </cylinder>
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name='front_left_steering_joint' type='revolute'>
+      <pose relative_to='base_link'>0.17 0.21 0.102 0 -0 0</pose>
+      <parent>base_link</parent>
+      <child>front_steer_left_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>    <!-- 0 0 1 -->
+        <limit>
+          <lower>-0.7727</lower>
+          <upper>0.7727</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <joint name='front_left_wheel_joint' type='revolute'>
+      <pose relative_to='front_steer_left_link'>0 0 -0.06 0 -0 0</pose>
+      <parent>front_steer_left_link</parent>
+      <child>front_left_wheel_link</child>
+      <axis>
+        <xyz>0 -1 0.05</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='front_left_wheel_link'>
+      <pose relative_to='front_left_wheel_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>-0 0.000295 0 0 -0 0</pose>
+        <mass>0.296316</mass>  <!--0.296316 -->
+        <inertia>
+          <ixx>0.000374692</ixx>
+          <ixy>-1.84494e-13</ixy>
+          <ixz>-9.50757e-12</ixz>
+          <iyy>0.00066103</iyy>
+          <iyz>-1.17867e-13</iyz>
+          <izz>0.000374692</izz>
+        </inertia>
+      </inertial>
+      <collision name='front_left_wheel_link_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://rover/meshes/front_left_wheel_link.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='front_left_wheel_link_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://rover/meshes/front_left_wheel_link.STL</uri>
+          </mesh>
+        </geometry>
+        <material> <!-- Wheel material -->
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.1 0.1 0.2 1</diffuse>
+          <specular>0 0 0 0</specular>
+          <emissive>0 0 0 1</emissive>
+        </material> <!-- End wheel material -->
+      </visual>
+    </link>
+
+    <joint name='front_right_steering_joint' type='revolute'>
+      <pose relative_to='base_link'>0.17 -0.21 0.102 0 -0 0</pose>
+      <parent>base_link</parent>
+      <child>front_steer_right_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>    <!-- 0 0 1 -->
+        <limit>
+          <lower>-0.7727</lower>
+          <upper>0.7727</upper>
+        </limit>
+        <!--
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        -->
+      </axis>
+    </joint>
+    <link name='front_steer_right_link'>
+      <pose relative_to='front_right_steering_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 -0.000295 -0 0 -0 0</pose>
+        <mass>0.296316</mass> <!-- 0.296316 -->
+        <inertia>
+          <ixx>0.000374692</ixx>
+          <ixy>-9.17172e-08</ixy>
+          <ixz>-2.43188e-12</ixz>
+          <iyy>0.00066103</iyy>
+          <iyz>1.97369e-13</iyz>
+          <izz>0.000374692</izz>
+        </inertia>
+      </inertial>
+      <collision name='front_steer_right_link_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.001</length>
+            <radius>0.005</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='front_steer_right_link_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.001</length>
+            <radius>0.005</radius>
+          </cylinder>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='front_right_wheel_joint' type='revolute'>
+      <pose relative_to='front_steer_right_link'>0 0 -0.06 0 -0 0</pose>
+      <parent>front_steer_right_link</parent>
+      <child>front_right_wheel_link</child>
+      <axis>
+        <xyz>0 -1 -0.05</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='front_right_wheel_link'>
+      <pose relative_to='front_right_wheel_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 -0.000295 -0 0 -0 0</pose>
+        <mass>0.296316</mass> <!-- 0.296316-->
+        <inertia>
+          <ixx>0.000374692</ixx>
+          <ixy>-9.17172e-08</ixy>
+          <ixz>-2.43188e-12</ixz>
+          <iyy>0.00066103</iyy>
+          <iyz>1.97369e-13</iyz>
+          <izz>0.000374692</izz>
+        </inertia>
+      </inertial>
+      <collision name='front_right_wheel_link_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://rover/meshes/front_right_wheel_link.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='front_right_wheel_link_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://rover/meshes/front_right_wheel_link.STL</uri>
+          </mesh>
+        </geometry>
+        <material> <!-- Wheel material -->
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.1 0.1 0.2 1</diffuse>
+          <specular>0 0 0 0</specular>
+          <emissive>0 0 0 1</emissive>
+        </material> <!-- End wheel material -->
+      </visual>
+    </link>
+    <joint name='left_rear_joint' type='revolute'>
+      <pose relative_to='base_link'>-0.1815 0.228542 0.04 0 -0 0</pose>
+      <parent>base_link</parent>
+      <child>left_rear_link</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+      </axis>
+    </joint>
+    <link name='left_rear_link'>
+      <pose relative_to='left_rear_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 -0.019676 0 0 -0 0</pose>
+        <mass>0.295562</mass>  <!--0.295562 -->
+        <inertia>
+          <ixx>0.000374087</ixx>
+          <ixy>2.19336e-13</ixy>
+          <ixz>-5.50404e-12</ixz>
+          <iyy>0.000661017</iyy>
+          <iyz>-5.10049e-14</iyz>
+          <izz>0.000374087</izz>
+        </inertia>
+      </inertial>
+      <collision name='left_rear_link_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://rover/meshes/left_rear_link.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='left_rear_link_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://rover/meshes/left_rear_link.STL</uri>
+          </mesh>
+        </geometry>
+        <material> <!-- Wheel material -->
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.1 0.1 0.2 1</diffuse>
+          <specular>0 0 0 0</specular>
+          <emissive>0 0 0 1</emissive>
+        </material> <!-- End wheel material -->
+      </visual>
+    </link>
+  
+    <joint name='right_rear_joint' type='revolute'>
+      <pose relative_to='base_link'>-0.1815 -0.228542 0.04 0 -0 0</pose>
+      <parent>base_link</parent>
+      <child>right_rear_link</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+       </axis>
+    </joint>
+    <link name='right_rear_link'>
+      <pose relative_to='right_rear_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0.019676 0 0 -0 0</pose>
+        <mass>0.295562</mass> <!-- 0.295562 -->
+        <inertia>
+          <ixx>0.000374087</ixx>
+          <ixy>-2.19338e-13</ixy>
+          <ixz>5.50404e-12</ixz>
+          <iyy>0.000661017</iyy>
+          <iyz>-5.10074e-14</iyz>
+          <izz>0.000374087</izz>
+        </inertia>
+      </inertial>
+      <collision name='right_rear_link_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://rover/meshes/right_rear_link.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='right_rear_link_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://rover/meshes/right_rear_link.STL</uri>
+          </mesh>
+        </geometry>
+        <material> <!-- Wheel material -->
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.1 0.1 0.2 1</diffuse>
+          <specular>0 0 0 0</specular>
+          <emissive>0 0 0 1</emissive>
+        </material> <!-- End wheel material -->
+      </visual>
+    </link>
+  
+    <link name='rover/imu_link'>
+      <pose>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.015</mass>
+        <inertia>
+          <ixx>1e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1e-05</iyy>
+          <iyz>0</iyz>
+          <izz>1e-05</izz>
+        </inertia>
+     </inertial>
+    </link>
+    <joint name='rover/imu_joint' type='revolute'>
+      <child>rover/imu_link</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>0</upper>
+          <effort>0</effort>
+          <velocity>0</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+
+    <include>
+      <uri>model://gps</uri>
+      <pose>0 0 0 0 0 0</pose>
+      <name>gps</name>
+    </include>
+    <joint name='gps_joint' type='fixed'>
+      <child>gps::link</child>
+      <parent>base_link</parent>
+    </joint>
+
+    <plugin name='barometer_plugin' filename='libgazebo_barometer_plugin.so'>
+      <robotNamespace/>
+      <pubRate>100</pubRate>
+      <baroTopic>/baro</baroTopic>
+    </plugin>
+    
+    <plugin name='gazebo_imu_plugin' filename='libgazebo_imu_plugin.so'>
+      <robotNamespace></robotNamespace>
+      <linkName>rover/imu_link</linkName>
+      <imuTopic>/imu</imuTopic>
+      <gyroscopeNoiseDensity>0.0003394</gyroscopeNoiseDensity>
+      <gyroscopeRandomWalk>3.8785e-05</gyroscopeRandomWalk>
+      <gyroscopeBiasCorrelationTime>1000.0</gyroscopeBiasCorrelationTime>
+      <gyroscopeTurnOnBiasSigma>0.0087</gyroscopeTurnOnBiasSigma>
+      <accelerometerNoiseDensity>0.004</accelerometerNoiseDensity>
+      <accelerometerRandomWalk>0.006</accelerometerRandomWalk>
+      <accelerometerBiasCorrelationTime>300.0</accelerometerBiasCorrelationTime>
+      <accelerometerTurnOnBiasSigma>0.196</accelerometerTurnOnBiasSigma>
+    </plugin>
+
+    <plugin name='groundtruth_plugin' filename='libgazebo_groundtruth_plugin.so'>
+      <robotNamespace/>
+    </plugin>
+
+    <plugin name='magnetometer_plugin' filename='libgazebo_magnetometer_plugin.so'>
+      <robotNamespace/>
+      <pubRate>100</pubRate>
+      <noiseDensity>0.0004</noiseDensity>
+      <randomWalk>6.4e-06</randomWalk>
+      <biasCorrelationTime>600</biasCorrelationTime>
+      <magTopic>/mag</magTopic>
+    </plugin>
+    
+    <!--  **************************************************************************** -->
+    <plugin name='mavlink_interface' filename='libgazebo_mavlink_interface.so'>
+      <robotNamespace/>
+      <imuSubTopic>/imu</imuSubTopic>
+      <magSubTopic>/mag</magSubTopic>
+      <baroSubTopic>/baro</baroSubTopic>
+      <mavlink_addr>INADDR_ANY</mavlink_addr>
+      <mavlink_tcp_port>4560</mavlink_tcp_port>
+      <mavlink_udp_port>14560</mavlink_udp_port>
+      <serialEnabled>0</serialEnabled>
+      <serialDevice>/dev/ttyACM0</serialDevice>
+      <baudRate>921600</baudRate>
+      <qgc_addr>INADDR_ANY</qgc_addr>
+      <qgc_udp_port>14550</qgc_udp_port>
+      <sdk_addr>INADDR_ANY</sdk_addr>
+      <sdk_udp_port>14540</sdk_udp_port>
+      <hil_mode>0</hil_mode>
+      <hil_state_level>0</hil_state_level>
+      <send_vision_estimation>0</send_vision_estimation>
+      <send_odometry>1</send_odometry>
+      <enable_lockstep>1</enable_lockstep>
+      <use_tcp>1</use_tcp>
+      <motorSpeedCommandPubTopic>/gazebo/command/motor_speed</motorSpeedCommandPubTopic>
+      <control_channels>
+<!--
+        <channel name='front_left_wheel_drive'>
+          <input_index>3</input_index>
+          <input_offset>0</input_offset>
+          <input_scaling>10</input_scaling>
+          <zero_position_disarmed>0</zero_position_disarmed>
+          <zero_position_armed>0</zero_position_armed>
+          <joint_control_type>velocity</joint_control_type>
+          <joint_name>front_left_wheel_joint</joint_name>
+          <joint_control_pid>
+            <p>0.1</p>
+            <i>0</i>
+            <d>0</d>
+            <iMax>1</iMax>
+            <iMin>-1</iMin>
+            <cmdMax>1</cmdMax>
+            <cmdMin>-1</cmdMin>
+          </joint_control_pid>
+        </channel>
+
+        <channel name='front_right_wheel_drive'>
+          <input_index>4</input_index>
+          <input_offset>0</input_offset>
+          <input_scaling>10</input_scaling>
+          <zero_position_disarmed>0</zero_position_disarmed>
+          <zero_position_armed>0</zero_position_armed>
+          <joint_control_type>velocity</joint_control_type>
+          <joint_name>front_right_wheel_joint</joint_name>
+          <joint_control_pid>
+            <p>0.1</p>
+            <i>0</i>
+            <d>0</d>
+            <iMax>1</iMax>
+            <iMin>-1</iMin>
+            <cmdMax>1</cmdMax>
+            <cmdMin>-1</cmdMin>
+          </joint_control_pid>
+        </channel>
+-->
+
+      <!-- ********************  rear  wheel drive    ******************************-->
+        <channel name='rear_left_wheel_drive'>
+          <input_index>5</input_index>
+          <input_offset>0</input_offset>
+          <input_scaling>40</input_scaling>
+          <zero_position_disarmed>0</zero_position_disarmed>
+          <zero_position_armed>0</zero_position_armed>
+          <joint_control_type>velocity</joint_control_type>
+          <joint_name>right_rear_joint</joint_name> <!--left_rear_joint -->
+          <joint_control_pid>
+            <p>0.1</p>
+            <i>0</i>
+            <d>0</d>
+            <iMax>1</iMax>
+            <iMin>-1</iMin>
+            <cmdMax>1</cmdMax>
+            <cmdMin>-1</cmdMin>
+          </joint_control_pid>
+        </channel>
+
+        <channel name='rear_right_wheel_drive'>
+          <input_index>6</input_index>
+          <input_offset>0</input_offset>
+          <input_scaling>40</input_scaling>
+          <zero_position_disarmed>0</zero_position_disarmed>
+          <zero_position_armed>0</zero_position_armed>
+          <joint_control_type>velocity</joint_control_type>
+          <joint_name>left_rear_joint</joint_name>  <!-- right_rear_joint -->
+          <joint_control_pid>
+            <p>0.1</p>
+            <i>0</i>
+            <d>0</d>
+            <iMax>1</iMax>
+            <iMin>-1</iMin>
+            <cmdMax>1</cmdMax>
+            <cmdMin>-1</cmdMin>
+          </joint_control_pid>
+        </channel>
+        <!-- ********************  rear  wheel drive    ******************************-->
+
+        <!-- ********************  steer  wheel drive    ******************************-->
+        <channel name='left_wheel_steering'>
+          <input_index>0</input_index>
+          <input_offset>0</input_offset>
+          <input_scaling>-0.9</input_scaling>
+          <zero_position_disarmed>0</zero_position_disarmed>
+          <zero_position_armed>0</zero_position_armed>
+          <joint_control_type>position</joint_control_type>
+          <joint_name>front_left_steering_joint</joint_name>
+          <joint_control_pid>
+            <p>0.2</p>
+            <i>0.05</i>
+            <d>0.1</d>
+            <iMax>0.7727</iMax>
+            <iMin>-0.7727</iMin>
+            <cmdMax>0.7727</cmdMax>
+            <cmdMin>-0.7727</cmdMin>
+          </joint_control_pid>
+        </channel>
+        <channel name='right_wheel_steering'>
+          <input_index>1</input_index>
+          <input_offset>0</input_offset>
+          <input_scaling>-0.9</input_scaling>
+          <zero_position_disarmed>0</zero_position_disarmed>
+          <zero_position_armed>0</zero_position_armed>
+          <joint_control_type>position</joint_control_type>
+          <joint_name>front_right_steering_joint</joint_name>
+          <joint_control_pid>
+            <p>0.2</p>
+            <i>0.05</i>
+            <d>0.1</d>
+            <iMax>0.7727</iMax>
+            <iMin>-0.7727</iMin>
+            <cmdMax>0.7727</cmdMax>
+            <cmdMin>-0.7727</cmdMin>
+          </joint_control_pid>
+        </channel>
+        <!-- ********************  steer  wheel drive    ******************************-->
+
+      </control_channels>
+    </plugin>
+  </model>
+</sdf>
